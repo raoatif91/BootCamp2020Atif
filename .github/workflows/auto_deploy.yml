@@ -1,25 +1,22 @@
-name: Bootcamp 2020 urdu
+  
+name: Deploy Website
 
-on:
-  push:
-    branches: [ master ]
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    name: Deploying to surge
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Install Node.js 
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 12
+      - name: Install Surge
+        run: npm install -g surge
+      - name: Run surge
+        run: surge ./ bootcamp_atif.surge.sh --token ${{ secrets.SURGE_TOKEN }}
 
-    - name: Installing Node
-      run: actions/setup-node@v2-beta
-      with:
-        node-version: 12  
-
-    - name: installing surge
-      run: npm install --global surge
-      
-    - name: deploying using surge
-       run: surge ./ bootcamp_atif.surge.sh --token ${{ secrets.SURGE_TOKEN }}
       
 
